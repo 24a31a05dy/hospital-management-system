@@ -1,0 +1,18 @@
+/* ===== Responsive Design ===== */
+
+@media (max-width: 480px) {
+
+    .auth-card {
+        width: 90%;
+        padding: 20px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    h3 {
+        font-size: 16px;
+    }
+
+}

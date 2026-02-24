@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login | Hospital Management System</title>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/auth.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body>
+
+    <div class="auth-container">
+        <div class="auth-card">
+
+            <h2 class="text-center">Hospital Management System</h2>
+            <h3 class="text-center">Login to Your Account</h3>
+
+            <form id="loginForm">
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <input type="email" id="loginEmail" placeholder="Enter your email">
+                    <small class="error" id="loginEmailError"></small>
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password">
+                    <small class="error" id="loginPasswordError"></small>
+                </div>
+
+                <!-- Login Button -->
+                <button type="submit" class="btn btn-primary">
+                    Login
+                </button>
+
+                <!-- Links -->
+                <p class="text-center mt-2">
+                    <a href="forgot-password.html">Forgot Password?</a>
+                </p>
+
+                <p class="text-center">
+                    Don't have an account?
+                    <a href="register.html">Register here</a>
+                </p>
+
+            </form>
+
+        </div>
+    </div>
+
+    <!-- JS File -->
+    <script src="assets/js/auth.js"></script>
+
+</body>
+</html>
