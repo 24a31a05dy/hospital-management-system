@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hospital Management System</title>
+</head>
+<body>
+
+<script>
+    // Check if user is logged in
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+    if (currentUser) {
+        // Redirect based on role
+        switch (currentUser.role) {
+            case "admin":
+                window.location.href = "admin-dashboard.html";
+                break;
+            case "doctor":
+                window.location.href = "doctor-dashboard.html";
+                break;
+            case "patient":
+                window.location.href = "patient-dashboard.html";
+                break;
+            case "receptionist":
+                window.location.href = "receptionist-dashboard.html";
+                break;
+            default:
+                window.location.href = "login.html";
+        }
+    } else {
+        // If not logged in → go to login page
+        window.location.href = "login.html";
+    }
+</script>
+
+</body>
+</html>

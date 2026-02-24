@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register - Hospital Management System</title>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/auth.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            
+            <h2 class="text-center">Hospital Management System</h2>
+            <h3 class="text-center">Create Account</h3>
+
+            <form id="registerForm">
+
+                <!-- Name -->
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" placeholder="Enter your full name">
+                    <small class="error" id="nameError"></small>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="Enter your email">
+                    <small class="error" id="emailError"></small>
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter password">
+                    <small class="error" id="passwordError"></small>
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" placeholder="Confirm password">
+                    <small class="error" id="confirmPasswordError"></small>
+                </div>
+
+                <!-- Role Selection -->
+                <div class="form-group">
+                    <label for="role">Select Role</label>
+                    <select id="role">
+                        <option value="">-- Select Role --</option>
+                        <option value="admin">Admin</option>
+                        <option value="doctor">Doctor</option>
+                        <option value="patient">Patient</option>
+                        <option value="receptionist">Receptionist</option>
+                    </select>
+                    <small class="error" id="roleError"></small>
+                </div>
+
+                <!-- Register Button -->
+                <button type="submit" class="btn btn-primary">
+                    Register
+                </button>
+
+                <!-- Login Redirect -->
+                <p class="text-center mt-2">
+                    Already have an account?
+                    <a href="login.html">Login here</a>
+                </p>
+
+                <!-- Success Message -->
+                <p class="success text-center" id="successMessage"></p>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- JS File -->
+    <script src="assets/js/auth.js"></script>
+
+</body>
+</html>
