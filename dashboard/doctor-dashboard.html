@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Doctor Dashboard - HarmonyCare</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+</head>
+
+<body>
+    <div class="dashboard-root">
+        <aside class="sidebar">
+            <div>
+                <div class="brand">
+                    <div class="brand-icon">+</div>
+                    <div class="brand-text">HarmonyCare</div>
+                </div>
+                <ul class="sidebar-nav">
+                    <li><a href="#" class="active"><span class="nav-text">Dashboard</span></a></li>
+                    <li><a href="#appointments"><span class="nav-text">Appointments</span></a></li>
+                    <li><a href="#patients"><span class="nav-text">Patient History</span></a></li>
+                    <li><a href="#schedule"><span class="nav-text">Schedule</span></a></li>
+                </ul>
+            </div>
+            <div class="sidebar-footer">
+                Doctor workspace
+            </div>
+        </aside>
+
+        <main class="main">
+            <header class="topbar">
+                <div class="topbar-title">Today’s Overview</div>
+                <div class="topbar-profile">
+                    <button id="logoutBtn" class="btn-ghost logout-btn">Logout</button>
+                    <div class="profile-info">
+                        <div class="name" id="profileName">Doctor</div>
+                        <div class="role" id="profileRole">Doctor</div>
+                    </div>
+                    <div class="profile-avatar">D</div>
+                </div>
+            </header>
+
+            <section class="content">
+                <div class="cards-grid">
+                    <div class="card card-highlight">
+                        <h3>Today’s Appointments</h3>
+                        <div class="card-value" id="doctorTodayAppointments">0</div>
+                        <small>Scheduled for today</small>
+                    </div>
+                    <div class="card card-highlight">
+                        <h3>Pending</h3>
+                        <div class="card-value" id="doctorPendingAppointments">0</div>
+                        <small>Awaiting confirmation</small>
+                    </div>
+                    <div class="card card-highlight">
+                        <h3>Completed</h3>
+                        <div class="card-value" id="doctorCompletedAppointments">0</div>
+                        <small>Completed this week</small>
+                    </div>
+                </div>
+
+                <h2 class="section-title" id="appointments">Appointments</h2>
+                <div class="table-card">
+                    <div class="table-card-header">
+                        <h3>Today’s Schedule</h3>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Patient</th>
+                                <th>Department</th>
+                                <th>Date &amp; Time</th>
+                                <th>Status</th>
+                                <th>Update</th>
+                            </tr>
+                        </thead>
+                        <tbody id="appointmentsTableBody"></tbody>
+                    </table>
+                </div>
+
+                <h2 class="section-title" id="patients">Patient Notes &amp; Prescriptions</h2>
+                <div class="layout-two-column">
+                    <div class="table-card">
+                        <div class="table-card-header">
+                            <h3>Recent Appointments</h3>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Patient</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="doctorHistoryBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="form-card">
+                        <h3>Add Notes / Prescription</h3>
+                        <form id="doctorNotesForm">
+                            <div class="form-group">
+                                <label for="notesAppointmentId">Appointment ID</label>
+                                <input type="text" id="notesAppointmentId" placeholder="Paste appointment ID">
+                            </div>
+                            <div class="form-group">
+                                <label for="notesText">Medical Notes</label>
+                                <textarea id="notesText" rows="4" placeholder="Clinical summary, observations..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="prescriptionText">Prescription</label>
+                                <textarea id="prescriptionText" rows="3" placeholder="Medicines, dosage, duration..."></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary">Save Notes</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/role.js"></script>
+    <script src="../assets/js/appointments.js"></script>
+    <script>
+        const { STORAGE_KEYS, getFromStorage, setInStorage, getCurrentUser, formatDateTime, escapeHtml } = window.HMSUtils;
+        const user = window.HMSRole.requireRole("doctor");
+        if (!user || user.role !== "doctor") {
+            return;
+        }
+
+        function loadDoctorDashboard() {
+            const appointments = getFromStorage(STORAGE_KEYS.APPOINTMENTS, [])
+                .filter(a => a.doctorName === user.name || a.doctorId === user.id);
+
+            const today = new Date().toISOString().slice(0, 10);
+            const todayAppointments = appointments.filter(a => a.date === today);
+            const pending = appointments.filter(a => a.status === "pending");
+            const completed = appointments.filter(a => a.status === "completed");
+
+            document.getElementById("doctorTodayAppointments").textContent = todayAppointments.length;
+            document.getElementById("doctorPendingAppointments").textContent = pending.length;
+            document.getElementById("doctorCompletedAppointments").textContent = completed.length;
+
+            const historyBody = document.getElementById("doctorHistoryBody");
+            historyBody.innerHTML = "";
+            appointments.slice(-10).forEach(a => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${escapeHtml(a.patientName)}</td>
+                    <td>${formatDateTime(a.date, a.time)}</td>
+                    <td>${escapeHtml(a.status)}</td>
+                `;
+                historyBody.appendChild(tr);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            loadDoctorDashboard();
+
+            document.getElementById("doctorNotesForm").addEventListener("submit", (e) => {
+                e.preventDefault();
+                const idInput = document.getElementById("notesAppointmentId");
+                const notesInput = document.getElementById("notesText");
+                const prescriptionInput = document.getElementById("prescriptionText");
+
+                const id = idInput.value.trim();
+                if (!id) {
+                    alert("Please provide appointment ID.");
+                    return;
+                }
+
+                const appointments = getFromStorage(STORAGE_KEYS.APPOINTMENTS, []);
+                const idx = appointments.findIndex(a => a.id === id);
+                if (idx === -1) {
+                    alert("Appointment not found. Make sure ID is correct.");
+                    return;
+                }
+
+                appointments[idx].notes = notesInput.value.trim();
+                appointments[idx].prescriptions = prescriptionInput.value.trim();
+                setInStorage(STORAGE_KEYS.APPOINTMENTS, appointments);
+                e.target.reset();
+                loadDoctorDashboard();
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Reception Dashboard - HarmonyCare</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+</head>
+
+<body>
+    <div class="dashboard-root">
+        <aside class="sidebar">
+            <div>
+                <div class="brand">
+                    <div class="brand-icon">+</div>
+                    <div class="brand-text">HarmonyCare</div>
+                </div>
+                <ul class="sidebar-nav">
+                    <li><a href="#" class="active"><span class="nav-text">Dashboard</span></a></li>
+                    <li><a href="#appointments"><span class="nav-text">Appointments</span></a></li>
+                    <li><a href="#patients"><span class="nav-text">Patients</span></a></li>
+                    <li><a href="#billing"><span class="nav-text">Billing</span></a></li>
+                </ul>
+            </div>
+            <div class="sidebar-footer">
+                Reception &amp; front desk
+            </div>
+        </aside>
+
+        <main class="main">
+            <header class="topbar">
+                <div class="topbar-title">Reception Overview</div>
+                <div class="topbar-profile">
+                    <button id="logoutBtn" class="btn-ghost logout-btn">Logout</button>
+                    <div class="profile-info">
+                        <div class="name" id="profileName">Reception</div>
+                        <div class="role" id="profileRole">Receptionist</div>
+                    </div>
+                    <div class="profile-avatar">R</div>
+                </div>
+            </header>
+
+            <section class="content">
+                <div class="cards-grid">
+                    <div class="card card-highlight">
+                        <h3>Waiting Queue</h3>
+                        <div class="card-value" id="receptionQueueCount">0</div>
+                        <small>Appointments pending today</small>
+                    </div>
+                    <div class="card card-highlight">
+                        <h3>Booked Today</h3>
+                        <div class="card-value" id="receptionBookedToday">0</div>
+                        <small>New bookings</small>
+                    </div>
+                    <div class="card card-highlight">
+                        <h3>Total Patients</h3>
+                        <div class="card-value" id="receptionTotalPatients">0</div>
+                    </div>
+                </div>
+
+                <h2 class="section-title" id="patients">Quick Patient Registration</h2>
+                <div class="form-card">
+                    <form id="receptionRegisterForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="recFullName">Full Name</label>
+                                <input type="text" id="recFullName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="recEmail">Email</label>
+                                <input type="email" id="recEmail" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="recPhone">Phone</label>
+                                <input type="tel" id="recPhone" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary">Register Patient</button>
+                    </form>
+                </div>
+
+                <h2 class="section-title" id="appointments">Book Appointment</h2>
+                <div class="layout-two-column">
+                    <div class="form-card">
+                        <form id="appointmentForm">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="appointmentPatientName">Patient Name</label>
+                                    <input type="text" id="appointmentPatientName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="appointmentDoctorName">Doctor</label>
+                                    <input type="text" id="appointmentDoctorName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="appointmentDepartment">Department</label>
+                                    <input type="text" id="appointmentDepartment" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="appointmentDate">Date</label>
+                                    <input type="date" id="appointmentDate" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="appointmentTime">Time</label>
+                                    <input type="time" id="appointmentTime" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn-primary">Create Appointment</button>
+                        </form>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-card-header">
+                            <h3>Waiting Queue</h3>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Patient</th>
+                                    <th>Doctor</th>
+                                    <th>Date &amp; Time</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="appointmentsTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <h2 class="section-title" id="billing">Billing</h2>
+                <div class="layout-two-column">
+                    <div class="form-card">
+                        <h3>Create Bill</h3>
+                        <form id="billingForm">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="billingPatientName">Patient Name</label>
+                                    <input type="text" id="billingPatientName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="billingServices">Services (comma separated)</label>
+                                    <input type="text" id="billingServices" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="billingAmount">Amount ($)</label>
+                                    <input type="number" step="0.01" id="billingAmount" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn-primary">Save Bill</button>
+                        </form>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-card-header">
+                            <h3>Recent Bills</h3>
+                            <div>Total: <strong id="billingTotalAmount">$0.00</strong></div>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Patient</th>
+                                    <th>Services</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="billingTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/role.js"></script>
+    <script src="../assets/js/appointments.js"></script>
+    <script src="../assets/js/billing.js"></script>
+    <script>
+        const { STORAGE_KEYS, getFromStorage, setInStorage, generateId } = window.HMSUtils;
+        window.HMSRole.requireRole("receptionist");
+
+        function refreshReceptionStats() {
+            const users = getFromStorage(STORAGE_KEYS.USERS, []);
+            const appointments = getFromStorage(STORAGE_KEYS.APPOINTMENTS, []);
+            const today = new Date().toISOString().slice(0, 10);
+
+            const queue = appointments.filter(a => a.date === today && a.status === "pending");
+            const bookedToday = appointments.filter(a => a.date === today);
+            const totalPatients = users.filter(u => u.role === "patient").length;
+
+            document.getElementById("receptionQueueCount").textContent = queue.length;
+            document.getElementById("receptionBookedToday").textContent = bookedToday.length;
+            document.getElementById("receptionTotalPatients").textContent = totalPatients;
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("receptionRegisterForm").addEventListener("submit", (e) => {
+                e.preventDefault();
+                const name = document.getElementById("recFullName").value.trim();
+                const email = document.getElementById("recEmail").value.trim().toLowerCase();
+                const phone = document.getElementById("recPhone").value.trim();
+                if (!name || !email || !phone) return;
+
+                let users = getFromStorage(STORAGE_KEYS.USERS, []);
+                if (users.some(u => u.email === email)) {
+                    alert("A user with this email already exists.");
+                    return;
+                }
+
+                // Generate a simple temporary password for reception-registered patients
+                const tempPassword = "patient@" + Math.floor(1000 + Math.random() * 9000);
+
+                users.push({
+                    id: generateId("user"),
+                    name,
+                    email,
+                    password: tempPassword,
+                    phone,
+                    role: "patient"
+                });
+                setInStorage(STORAGE_KEYS.USERS, users);
+
+                alert(`Patient registered.\n\nTemporary password: ${tempPassword}\n\nPlease share this password with the patient and advise them to change it later.`);
+
+                e.target.reset();
+                refreshReceptionStats();
+            });
+
+            refreshReceptionStats();
+        });
+    </script>
+</body>
+
+</html>

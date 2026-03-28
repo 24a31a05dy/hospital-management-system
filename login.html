@@ -1,60 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Login | Hospital Management System</title>
-
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="assets/css/main.css">
+    <title>Login - HarmonyCare Hospital</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/css/auth.css">
-    <link rel="stylesheet" href="assets/css/responsive.css">
 </head>
-<body>
 
+<body>
     <div class="auth-container">
         <div class="auth-card">
-
-            <h2 class="text-center">Hospital Management System</h2>
-            <h3 class="text-center">Login to Your Account</h3>
+            <h2>Welcome Back</h2>
+            <h3>Sign in to Hospital Dashboard</h3>
 
             <form id="loginForm">
-
-                <!-- Email -->
                 <div class="form-group">
-                    <label for="loginEmail">Email Address</label>
-                    <input type="email" id="loginEmail" placeholder="Enter your email">
-                    <small class="error" id="loginEmailError"></small>
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" placeholder="you@example.com" required>
                 </div>
-
-                <!-- Password -->
                 <div class="form-group">
                     <label for="loginPassword">Password</label>
-                    <input type="password" id="loginPassword" placeholder="Enter your password">
-                    <small class="error" id="loginPasswordError"></small>
+                    <input type="password" id="loginPassword" placeholder="Enter your password" required>
                 </div>
-
-                <!-- Login Button -->
-                <button type="submit" class="btn btn-primary">
-                    Login
-                </button>
-
-                <!-- Links -->
-                <p class="text-center mt-2">
-                    <a href="forgot-password.html">Forgot Password?</a>
-                </p>
-
-                <p class="text-center">
-                    Don't have an account?
-                    <a href="register.html">Register here</a>
-                </p>
-
+                <p class="error" id="loginError"></p>
+                <button type="submit">Login</button>
             </form>
 
+            <p style="margin-top: 16px; text-align: center;">
+                <a href="forgot-password.html">Forgot password?</a>
+            </p>
+            <p style="margin-top: 4px; text-align: center;">
+                New patient? <a href="register.html">Create an account</a>
+            </p>
         </div>
     </div>
 
-    <!-- JS File -->
+    <script src="assets/js/utils.js"></script>
     <script src="assets/js/auth.js"></script>
-
 </body>
+
 </html>

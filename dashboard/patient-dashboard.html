@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Dashboard - HarmonyCare</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+</head>
+
+<body>
+    <div class="dashboard-root">
+        <aside class="sidebar">
+            <div>
+                <div class="brand">
+                    <div class="brand-icon">+</div>
+                    <div class="brand-text">HarmonyCare</div>
+                </div>
+                <ul class="sidebar-nav">
+                    <li><a href="#" class="active"><span class="nav-text">Dashboard</span></a></li>
+                    <li><a href="#appointments"><span class="nav-text">Appointments</span></a></li>
+                    <li><a href="#doctors"><span class="nav-text">Doctors</span></a></li>
+                    <li><a href="#billing"><span class="nav-text">Billing</span></a></li>
+                    <li><a href="#prescriptions"><span class="nav-text">Prescriptions</span></a></li>
+                </ul>
+            </div>
+            <div class="sidebar-footer">
+                Patient portal
+            </div>
+        </aside>
+
+        <main class="main">
+            <header class="topbar">
+                <div class="topbar-title">Welcome, Patient</div>
+                <div class="topbar-profile">
+                    <button id="logoutBtn" class="btn-ghost logout-btn">Logout</button>
+                    <div class="profile-info">
+                        <div class="name" id="profileName">Patient</div>
+                        <div class="role" id="profileRole">Patient</div>
+                    </div>
+                    <div class="profile-avatar">P</div>
+                </div>
+            </header>
+
+            <section class="content">
+                <div class="cards-grid">
+                    <div class="card card-highlight">
+                        <h3>Upcoming Appointments</h3>
+                        <div class="card-value" id="patientUpcomingAppointments">0</div>
+                    </div>
+                    <div class="card card-highlight">
+                        <h3>Completed Visits</h3>
+                        <div class="card-value" id="patientCompletedAppointments">0</div>
+                    </div>
+                    <div class="card card-highlight">
+                        <h3>Total Bills</h3>
+                        <div class="card-value" id="patientTotalBills">$0.00</div>
+                    </div>
+                </div>
+
+                <h2 class="section-title" id="appointments">Book Appointment</h2>
+                <div class="layout-two-column">
+                    <div class="form-card">
+                        <form id="appointmentForm">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="appointmentPatientName">Patient Name</label>
+                                    <input type="text" id="appointmentPatientName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="appointmentDoctorName">Doctor</label>
+                                    <input type="text" id="appointmentDoctorName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="appointmentDepartment">Department</label>
+                                    <input type="text" id="appointmentDepartment" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="appointmentDate">Date</label>
+                                    <input type="date" id="appointmentDate" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="appointmentTime">Time</label>
+                                    <input type="time" id="appointmentTime" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn-primary">Book Appointment</button>
+                        </form>
+                    </div>
+                    <div class="table-card">
+                        <div class="table-card-header">
+                            <h3>Appointment History</h3>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Doctor</th>
+                                    <th>Department</th>
+                                    <th>Date &amp; Time</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="appointmentsTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <h2 class="section-title" id="billing">Billing History</h2>
+                <div class="table-card">
+                    <div class="table-card-header">
+                        <h3>Your Bills</h3>
+                        <div>Total: <strong id="billingTotalAmount">$0.00</strong></div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Services</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="billingTableBody"></tbody>
+                    </table>
+                </div>
+
+                <h2 class="section-title" id="prescriptions">Prescriptions</h2>
+                <div class="table-card">
+                    <div class="table-card-header">
+                        <h3>Recent Prescriptions</h3>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Doctor</th>
+                                <th>Date</th>
+                                <th>Prescription</th>
+                            </tr>
+                        </thead>
+                        <tbody id="patientPrescriptionsBody"></tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/role.js"></script>
+    <script src="../assets/js/appointments.js"></script>
+    <script src="../assets/js/billing.js"></script>
+    <script>
+        const { STORAGE_KEYS, getFromStorage, getCurrentUser, formatDateTime, formatDate, escapeHtml } = window.HMSUtils;
+        const user = window.HMSRole.requireRole("patient");
+        if (!user || user.role !== "patient") {
+            return;
+        }
+
+        function refreshPatientStats() {
+            const appointments = getFromStorage(STORAGE_KEYS.APPOINTMENTS, [])
+                .filter(a => a.patientId === user.id || a.patientName === user.name);
+            const billing = getFromStorage(STORAGE_KEYS.BILLING, [])
+                .filter(b => b.patientName === user.name);
+
+            const upcoming = appointments.filter(a => a.status === "pending" || a.status === "approved");
+            const completed = appointments.filter(a => a.status === "completed");
+            const totalBills = billing.reduce((sum, b) => sum + (b.amount || 0), 0);
+
+            document.getElementById("patientUpcomingAppointments").textContent = upcoming.length;
+            document.getElementById("patientCompletedAppointments").textContent = completed.length;
+            document.getElementById("patientTotalBills").textContent = `$${totalBills.toFixed(2)}`;
+
+            const prescriptionsBody = document.getElementById("patientPrescriptionsBody");
+            prescriptionsBody.innerHTML = "";
+            appointments.filter(a => a.prescriptions).slice(-10).forEach(a => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${escapeHtml(a.doctorName)}</td>
+                    <td>${formatDateTime(a.date, a.time)}</td>
+                    <td>${escapeHtml(a.prescriptions)}</td>
+                `;
+                prescriptionsBody.appendChild(tr);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const current = getCurrentUser();
+            const patientNameInput = document.getElementById("appointmentPatientName");
+            if (current && patientNameInput) {
+                patientNameInput.value = current.name;
+            }
+            refreshPatientStats();
+        });
+    </script>
+</body>
+
+</html>

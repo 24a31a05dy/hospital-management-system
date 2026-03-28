@@ -1,38 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Hospital Management System</title>
+    <title>HarmonyCare Hospital - Management System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/main.css">
 </head>
+
 <body>
+    <header class="hero-header">
+        <div class="hero-nav container">
+            <div class="logo">
+                <span class="logo-icon">+</span>
+                <span class="logo-text">HarmonyCare Hospital</span>
+            </div>
+            <nav class="hero-links">
+                <a href="#features">Features</a>
+                <a href="#about">About</a>
+                <a href="login.html" class="nav-btn nav-login">Login</a>
+                <a href="register.html" class="nav-btn nav-register">Register</a>
+            </nav>
+        </div>
 
-<script>
-    // Check if user is logged in
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        <section class="hero container">
+            <div class="hero-content">
+                <h1>Modern Hospital Management System</h1>
+                <p>Streamline appointments, billing, reports, and patient care with a secure, role-based hospital
+                    dashboard built for doctors, receptionists, admins, and patients.</p>
+                <div class="hero-actions">
+                    <a href="login.html" class="btn-primary">Login</a>
+                    <a href="register.html" class="btn-outline">Register as Patient</a>
+                </div>
+                <div class="hero-meta">
+                    <span>✓ Role-based dashboards</span>
+                    <span>✓ Secure local data</span>
+                    <span>✓ Real-time insights</span>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-card">
+                    <h3>Live Hospital Snapshot</h3>
+                    <div class="hero-stats">
+                        <div class="stat-card">
+                            <span class="label">Active Doctors</span>
+                            <span class="value">12</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="label">Patients Today</span>
+                            <span class="value">87</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="label">Appointments</span>
+                            <span class="value">142</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="label">Revenue</span>
+                            <span class="value">$24.5K</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </header>
 
-    if (currentUser) {
-        // Redirect based on role
-        switch (currentUser.role) {
-            case "admin":
-                window.location.href = "admin-dashboard.html";
-                break;
-            case "doctor":
-                window.location.href = "doctor-dashboard.html";
-                break;
-            case "patient":
-                window.location.href = "patient-dashboard.html";
-                break;
-            case "receptionist":
-                window.location.href = "receptionist-dashboard.html";
-                break;
-            default:
-                window.location.href = "login.html";
-        }
-    } else {
-        // If not logged in → go to login page
-        window.location.href = "login.html";
-    }
-</script>
+    <main>
+        <section id="features" class="section container">
+            <h2>Powerful Features for Every Role</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Admin Control Center</h3>
+                    <p>Manage doctors, patients, appointments, and monitor real-time revenue and hospital statistics in
+                        one place.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Doctor Workspace</h3>
+                    <p>View today’s schedule, update appointment status, record prescriptions, and access patient
+                        history efficiently.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Reception Desk</h3>
+                    <p>Handle patient registrations, bookings, and billing with a clean and intuitive interface.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Patient Portal</h3>
+                    <p>Patients can register, book appointments, view history, prescriptions, and billing details.</p>
+                </div>
+            </div>
+        </section>
 
+        <section id="about" class="section alt">
+            <div class="container about-grid">
+                <div>
+                    <h2>Secure, Fast, and Responsive</h2>
+                    <p>Designed with a clean medical theme, HarmonyCare is optimized for all devices with a responsive
+                        layout, smooth animations, and accessible typography.</p>
+                    <p>All data is stored locally using browser storage, making it ideal for demonstration, training, or
+                        offline prototyping.</p>
+                </div>
+                <ul class="about-list">
+                    <li>Role-based access for Admin, Doctor, Receptionist, and Patient</li>
+                    <li>Card-based dashboards with live statistics</li>
+                    <li>Appointments and billing management</li>
+                    <li>Light, blue medical color palette</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© <span id="year"></span> HarmonyCare Hospital Management System</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
 </body>
+
 </html>
