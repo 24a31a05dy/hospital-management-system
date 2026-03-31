@@ -177,8 +177,12 @@
     <script src="../assets/js/appointments.js"></script>
     <script src="../assets/js/billing.js"></script>
     <script>
+        (function () {
         const { STORAGE_KEYS, getFromStorage, setInStorage, generateId } = window.HMSUtils;
-        window.HMSRole.requireRole("receptionist");
+        const user = window.HMSRole.requireRole("receptionist");
+        if (!user || user.role !== "receptionist") {
+            return;
+        }
 
         function refreshReceptionStats() {
             const users = getFromStorage(STORAGE_KEYS.USERS, []);
@@ -229,6 +233,7 @@
 
             refreshReceptionStats();
         });
+        })();
     </script>
 </body>
 

@@ -216,8 +216,12 @@
     <script src="../assets/js/billing.js"></script>
     <script src="../assets/js/reports.js"></script>
     <script>
-        const { STORAGE_KEYS, getFromStorage, setInStorage, generateId } = window.HMSUtils;
-        window.HMSRole.requireRole("admin");
+        (function () {
+        const { STORAGE_KEYS, getFromStorage, setInStorage, generateId, escapeHtml } = window.HMSUtils;
+        const user = window.HMSRole.requireRole("admin");
+        if (!user || user.role !== "admin") {
+            return;
+        }
 
         function refreshAdminStats() {
             const users = getFromStorage(STORAGE_KEYS.USERS, []);
@@ -242,7 +246,7 @@
             body.innerHTML = "";
             doctors.forEach(d => {
                 const tr = document.createElement("tr");
-                tr.innerHTML = `<td>${d.name}</td><td>${d.email}</td>`;
+                tr.innerHTML = `<td>${escapeHtml(d.name)}</td><td>${escapeHtml(d.email)}</td>`;
                 body.appendChild(tr);
             });
         }
@@ -254,7 +258,7 @@
             body.innerHTML = "";
             patients.forEach(p => {
                 const tr = document.createElement("tr");
-                tr.innerHTML = `<td>${p.name}</td><td>${p.email}</td><td>${p.phone || "-"}</td>`;
+                tr.innerHTML = `<td>${escapeHtml(p.name)}</td><td>${escapeHtml(p.email)}</td><td>${escapeHtml(p.phone || "-")}</td>`;
                 body.appendChild(tr);
             });
         }
@@ -293,6 +297,7 @@
             renderPatientList();
             refreshAdminStats();
         });
+        })();
     </script>
 </body>
 
