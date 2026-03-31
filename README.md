@@ -1,4 +1,3 @@
-# Hospital-Management-System
 # Project Title
 # 🏥 Hospital Management System
 
@@ -88,19 +87,18 @@ python app.py
 - Mobile App Version  
 
 ## 👩‍💻 Author
-- **Name:** D.Dhanushya  
+- **Name(1):** D.Dhanushya  
 - **Role:** Project Manager  
 - **LinkedIn URL:** https://www.linkedin.com/in/donga-dhanushya
 
-- **Name:** P.Sanjay Nishanth
+- **Name(2):** P.Sanjay Nishanth
 - **Role:** Frontend Developer 
 - **LinkedIn URL:** https://www.linkedin.com/in/palla-sanjay-nishanth
 
-- **Name:** Ch.Saran Manikanta
+- **Name(3):** Ch.Saran Manikanta
 - **Role:** Database Manager 
 - **LinkedIn URL:** https://www.linkedin.com/in/saranmanikanta-chaviti-545986344
 
-
-- **Name:** M.Ajitesh 
+- **Name(4):** M.Ajitesh 
 - **Role:** Backend Developer
 - **LinkedIn URL:** https://in.linkedin.com/in/sai-ajitesh-machiraju
